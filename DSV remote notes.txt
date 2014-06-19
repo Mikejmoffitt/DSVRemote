@@ -1,0 +1,28 @@
+Hudl-branded DSV COM notes
+--------------------------
+
+The DSV remotes are an RS232 device with a COM to USB adapter contained within.
+From what I can tell the baudrate is 56000, communicating 8 bits at a time with
+no parity checks. 
+
+Data comes in 3-byte packets. The first byte is consistent between all of the 
+buttons, from what I can tell. Here is a chart of what means what:
+
+ Button     Hex                     Bin
+=====================================================
+Tag     | 24 03 FE  | 0010 0100  0000 0011  1111 1110 
+FF      | 24 03 FD  | 0010 0100  0000 0011  1111 1101 
+Slow    | 24 03 FB  | 0010 0100  0000 0011  1111 1011 
+Next    | 24 03 F7  | 0010 0100  0000 0011  1111 0111 
+Rew     | 24 03 EF  | 0010 0100  0000 0011  1110 1111 
+Play    | 24 03 DF  | 0010 0100  0000 0011  1101 1111 
+Rev     | 24 03 BF  | 0010 0100  0000 0011  1011 1111 
+Prev    | 24 03 7F  | 0010 0100  0000 0011  0111 1111 
+Full    | 24 02 FF  | 0010 0100  0000 0010  1111 1111 
+Key Up  | 24 03 FF  | 0010 0100  0000 0011  1111 1111 
+
+Annoyingly, when you release *any* button the same Key Up is read. 
+
+See the pattern? It's just a bitfield, active low. 
+
+The Laser key does not send anything, it just activates the laser in the unit.
